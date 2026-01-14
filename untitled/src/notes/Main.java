@@ -1,6 +1,10 @@
 package notes;
 import notes.model.Note;
 import notes.model.Notebook;
+import notes.utils.DateUtils;
+import notes.utils.StringUtils;
+import notes.utils.TagValidator;
+import notes.utils.TextUtils;
 
 import java.util.*;
 
@@ -8,48 +12,46 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("=== Шаг 1: Базовая модель заметок ===\n");
+        System.out.println("=== Шаг 2: Работа со строками ===\n");
 
-        Notebook nb1 = new Notebook(1, "Java Learning",
-                "Notes about Java programming");
-        Notebook nb2 = new Notebook(2, "Web Development",
-                "HTML, CSS, JavaScript notes");
+        String rawTitle = "  my java   note  ";
+        System.out.println("Raw: \"" + rawTitle + "\"");
+        String normalized = StringUtils.normalizeTitle(rawTitle);
+        System.out.println("Normalized: \"" + normalized + "\"");
+        System.out.println("Valid: " + StringUtils.isValidTitle(normalized));
 
-        System.out.println("Notebooks:");
-        System.out.println(nb1);
-        System.out.println(nb2);
+        System.out.println("\nTag Processing:");
+        String rawTags = "java, OOP, PRACTICE"; 
+        System.out.println("Raw tags: " + rawTags);
+        var parsed = StringUtils.parseTags(rawTags);
+        System.out.println("Parsed: " + parsed);
+        System.out.println("Joined: " + StringUtils.joinTags(parsed));
 
-        System.out.println("\nNotes:");
+        System.out.println("\nTag Validation:");
+        System.out.println("java: " + TagValidator.isValidTag("java"));
+        System.out.println("j: " + TagValidator.isValidTag("j"));
+        System.out.println("Java@123: " + TagValidator.isValidTag("java@123"));
 
-        Note note1 = new Note(
+        String content = "This is a long note about Java programming and OOP concepts";
+        System.out.println("\nContent Preview:");
+        System.out.println(TextUtils.truncateContent(content, 20));
+        System.out.println("Word count: " + TextUtils.countWords(content));
+        System.out.println("Search 'Java': " + TextUtils.searchInText(content, "Java"));
+        System.out.println("Search 'Python': " + TextUtils.searchInText(content, "Python"));
+
+        System.out.println("\nDate validation:");
+        System.out.println("2025-01-15 10:30: " +
+                DateUtils.isValidDateTime("2025-01-15 10:30"));
+
+        Note note = new Note(
                 1,
-                "OOP Principles",
-                "OOP concepts in Java",
+                rawTitle,
+                content,
                 "2025-01-15 10:30",
-                Arrays.asList("java", "oop", "theory")
+                Arrays.asList("JAVA", "oop")
         );
 
-        Note note2 = new Note(
-                2,
-                "Collections Framework",
-                "Lists, Sets, Maps",
-                "2025-01-16 14:20",
-                Arrays.asList("java", "collections", "list")
-        );
-
-        System.out.println(note1);
-        System.out.println(note2);
-
-        System.out.println("\nTag Operations:");
-
-        System.out.println("Original tags: " + note1.getTags());
-        note1.addTag("practice");
-        System.out.println("After adding 'practice': " + note1.getTags());
-
-        note1.removeTag("theory");
-        System.out.println("After removing 'theory': " + note1.getTags());
-
-        System.out.println("Has tag oop: " + note1.hasTag("oop"));
-        System.out.println("Has tag 'database': " + note1.hasTag("database"));
+        System.out.println("\nCreated note:");
+        System.out.println(note);
     }
 }

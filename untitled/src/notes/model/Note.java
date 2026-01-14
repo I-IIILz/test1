@@ -2,6 +2,9 @@ package notes.model;
 
 import java.util.*;
 
+import notes.utils.DateUtils;
+import notes.utils.StringUtils;
+
 
 public class Note {
 
@@ -17,6 +20,11 @@ public class Note {
         this.content = content;
         this.createdAt = createdAt;
         this.tags = new ArrayList<>(tags);
+        StringUtils.normalizeTitle(title);
+        DateUtils.isValidDateTime(createdAt);
+        for (String tag : tags) {
+            addTag(tag);
+        }
     }
 
     public int getId() {
@@ -60,8 +68,9 @@ public class Note {
     }
 
     public void addTag(String tag) {
-        if (!tags.contains(tag)) {
-            tags.add(tag);
+        String t = tag.toLowerCase().trim();
+        if (!tags.contains(t)) {
+            tags.add(t);
         }
     }
 

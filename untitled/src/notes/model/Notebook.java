@@ -38,10 +38,6 @@ public class Notebook {
 
     @Override
     public String toString() {
-        return "Notebook{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "Notebook{id=" + id +", name=" + name +", description=" + description +"}";
     }
 }
